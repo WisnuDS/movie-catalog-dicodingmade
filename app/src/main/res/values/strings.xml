@@ -1,0 +1,18 @@
+<resources>
+    <string name="title_movie">Movie</string>
+    <string name="title_tv_show">TV Show</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="app_name">Movie and TV Show</string>
+    <string name="image_of_movie">Image of movie</string>
+    <string name="poster_image">Poster Image</string>
+    <string name="setting">Setting</string>
+    <string name="detail_movie">Detile Movie</string>
+    <string name="detail_tvShow">Detile TV Show</string>
+    <string name="title_activity_settings">Settings</string>
+    <!-- Preference Titles -->
+    <string name="header_language">Language</string>
+    <string name="chose_language">Chose Language</string>
+    <string name="back_button">Back Button</string>
+    <string name="zoom_image">Zoom Image</string>
+
+</resources>

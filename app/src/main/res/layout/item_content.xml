@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin">
+
+    <ImageView
+    android:id="@+id/img_content"
+    android:layout_width="80dp"
+    android:layout_height="120dp"
+    android:background="@color/colorPrimary"
+    android:contentDescription="@string/image_of_movie" />
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/img_content"
+        android:text="@string/title_movie"
+        android:textSize="18sp"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:maxLines="1"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/tv_release"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/img_content"
+        android:layout_below="@+id/tv_title"
+        android:text="@string/app_name"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:maxLines="1"
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/img_content"
+        android:layout_below="@+id/tv_release"
+        android:text="@string/app_name"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:maxLines="3"
+        android:textSize="14sp"/>
+
+</RelativeLayout>

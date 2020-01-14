@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_movie">Film</string>
+    <string name="title_tv_show">Acara TV</string>
+    <string name="title_favorite">Favorit</string>
+    <string name="app_name">Film dan Acara TV</string>
+    <string name="image_of_movie">Gambar Poster Film</string>
+    <string name="poster_image">Gambar Poster</string>
+    <string name="setting">Pengaturan</string>
+    <string name="detail_movie">Detil Film</string>
+    <string name="detail_tvShow">Detil Acara TV</string>
+    <string name="title_activity_settings">Pengaturan</string>
+    <!-- Preference Titles -->
+    <string name="header_language">Bahasa</string>
+    <string name="chose_language">Pilih Bahasa</string>
+    <string name="back_button">Tombol Kembali</string>
+    <string name="zoom_image">Perbesar Foto</string>
+</resources>
