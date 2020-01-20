@@ -35,7 +35,9 @@ public class SettingsActivity extends AppCompatActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             Preference preference = getPreferenceManager().findPreference("signature");
             Intent intent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
-            preference.setIntent(intent);
+            if (preference != null) {
+                preference.setIntent(intent);
+            }
         }
     }
 

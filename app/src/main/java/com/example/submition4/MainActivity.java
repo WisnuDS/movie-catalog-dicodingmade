@@ -6,11 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.submition4.activity.SettingsActivity;
-import com.example.submition4.data.DataApi;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -45,10 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case id.settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+        if (item.getItemId() == id.settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

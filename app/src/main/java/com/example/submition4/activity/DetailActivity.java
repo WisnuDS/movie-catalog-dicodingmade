@@ -7,18 +7,25 @@ import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.submition4.R;
+import com.example.submition4.data.room.ContentRepository;
 import com.example.submition4.model.ContentModel;
 
 import java.util.Objects;
 
 public class DetailActivity extends AppCompatActivity {
-    ImageView imgContentDetail,imgBackdrop,imgBack;
+    ImageView imgContentDetail,imgBackdrop;
+    ImageButton imgBack;
+    ImageButton imgFavorite;
+    ImageButton imgFavoriteFilled;
     TextView titleDetail;
     TextView textViewReleaseDetail;
     TextView tvDescriptionDetail;
@@ -38,12 +45,38 @@ public class DetailActivity extends AppCompatActivity {
         imgBackdrop =  findViewById(R.id.backdop);
         tvRating = findViewById(R.id.tv_rating);
         imgBack = findViewById(R.id.img_back);
+        imgFavorite = findViewById(R.id.button_favorite);
+        imgFavoriteFilled = findViewById(R.id.button_favorite_fill);
         imgBack.setOnClickListener(v -> onBackPressed());
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(true);
         actionBar.hide();
         ContentModel model = getIntent().getParcelableExtra("EXTRA_DATA");
         assert model != null;
+        if(model.isFavorite()){
+            imgFavoriteFilled.setVisibility(View.VISIBLE);
+            imgFavorite.setVisibility(View.GONE);
+        }
+        imgFavorite.setOnClickListener(v -> {
+            ContentRepository repository = new ContentRepository(this);
+            model.setFavorite(true);
+            repository.insertFavorite(model);
+            imgFavorite.setVisibility(View.GONE);
+            imgFavoriteFilled.setVisibility(View.VISIBLE);
+            Intent intent = new Intent();
+            setResult(1,intent);
+            Toast.makeText(this,model.getTitle()+getResources().getString(R.string.add),Toast.LENGTH_SHORT).show();
+        });
+        imgFavoriteFilled.setOnClickListener(v -> {
+            ContentRepository repository = new ContentRepository(this);
+            repository.deleteFavorite(model);
+            model.setFavorite(false);
+            imgFavorite.setVisibility(View.VISIBLE);
+            imgFavoriteFilled.setVisibility(View.GONE);
+            Intent intent = new Intent();
+            setResult(1,intent);
+            Toast.makeText(this,model.getTitle()+getResources().getString(R.string.delete),Toast.LENGTH_SHORT).show();
+        });
         titleDetail.setText(model.getTitle());
         textViewReleaseDetail.setText(model.getRelease());
         tvDescriptionDetail.setText(model.getDescription());

@@ -14,5 +14,8 @@
     <string name="chose_language">Chose Language</string>
     <string name="back_button">Back Button</string>
     <string name="zoom_image">Zoom Image</string>
+    <string name = "add"> has been added to Favorites </string>
+    <string name = "delete"> has been removed from Favorites </string>
+    <string name="search">search</string>
 
 </resources>

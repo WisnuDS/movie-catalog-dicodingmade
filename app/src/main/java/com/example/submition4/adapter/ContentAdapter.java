@@ -17,7 +17,8 @@ import com.example.submition4.model.ContentModel;
 import java.util.ArrayList;
 
 public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ListViewHolder> {
-    private ArrayList<ContentModel> listContent = new ArrayList<>();
+    private ArrayList<ContentModel> listContentModel = new ArrayList<>();
+
 
     private OnItemClickCallback onItemClickCallback;
 
@@ -26,8 +27,8 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ListView
     }
 
     public void setListContent(ArrayList<ContentModel> listContent) {
-        this.listContent.clear();
-        this.listContent.addAll(listContent);
+        this.listContentModel.clear();
+        this.listContentModel.addAll(listContent);
         notifyDataSetChanged();
     }
 
@@ -40,7 +41,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ListView
 
     @Override
     public void onBindViewHolder(@NonNull final ListViewHolder holder, int position) {
-        ContentModel contentModel = listContent.get(position);
+        ContentModel contentModel = listContentModel.get(position);
         holder.tvTitle.setText(contentModel.getTitle());
         holder.tvDescription.setText(contentModel.getDescription());
         holder.tvRelease.setText(contentModel.getRelease());
@@ -48,20 +49,20 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ListView
                 .load("https://image.tmdb.org/t/p/w185"+contentModel.getPhoto())
                 .placeholder(holder.itemView.getResources().getDrawable(R.drawable.placeholder_portrait))
                 .into(holder.imgContent);
-        holder.itemView.setOnClickListener(v -> onItemClickCallback.onItemCallback(listContent.get(holder.getAdapterPosition())));
+        holder.itemView.setOnClickListener(v -> onItemClickCallback.onItemCallback(listContentModel.get(holder.getAdapterPosition())));
         Intent intent = new Intent("FinishLoader");
         holder.itemView.getContext().sendBroadcast(intent);
     }
 
     @Override
     public int getItemCount() {
-        return listContent.size();
+        return listContentModel.size();
     }
 
-    public class ListViewHolder extends RecyclerView.ViewHolder {
+    class ListViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvDescription, tvRelease;
         ImageView imgContent;
-        public ListViewHolder(@NonNull View itemView) {
+        ListViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvDescription = itemView.findViewById(R.id.tv_description);
