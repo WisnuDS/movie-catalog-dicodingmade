@@ -1,5 +1,7 @@
 package com.example.submition4.data.room.dao;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -15,6 +17,9 @@ import java.util.List;
 public interface DaoAccess {
     @Query("SELECT*FROM favorite_table WHERE type=1")
     LiveData<List<ContentModel>> getFavoriteMovie();
+
+    @Query("SELECT photo FROM favorite_table WHERE type=1")
+    List<String> getFavoriteMovieWidget();
 
     @Query("SELECT*FROM favorite_table WHERE type=2")
     LiveData<List<ContentModel>> getFavoriteTvShow();

@@ -9,7 +9,9 @@ import com.example.submition4.activity.SettingsActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,6 +22,17 @@ import static com.example.submition4.R.menu.menu_item;
 
 public class MainActivity extends AppCompatActivity {
 
+    NavController navController;
+
+    SearchBundel searchBundel;
+
+    SearchView searchView;
+
+    public void setOnSearchBundleChange(SearchBundel searchBundel){
+        this.searchBundel = searchBundel;
+    }
+
+    private static final String TAG = "ASSU";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 id.navigation_movie, id.navigation_tv_show, id.navigation_favorite)
                 .build();
-        NavController navController = Navigation.findNavController(this, id.nav_host_fragment);
+        navController = Navigation.findNavController(this, id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
@@ -38,7 +51,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(menu_item,menu);
-        return super.onCreateOptionsMenu(menu);
+        MenuItem item = menu.findItem(id.search_view);
+        ActionBar actionBar = getSupportActionBar();
+        searchView = (SearchView) item.getActionView();
+        searchView.setFocusable(false);
+        searchView.setQueryHint(getResources().getString(string.search));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Bundle bundle = new Bundle();
+                bundle.putString("EXTRA",query);
+                searchBundel.onSearchBundelChange(bundle);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Bundle bundle = new Bundle();
+                bundle.putString("EXTRA",newText);
+                searchBundel.onSearchBundelChange(bundle);
+                return false;
+            }
+        });
+        return true;
     }
 
     @Override
@@ -48,5 +83,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public interface SearchBundel{
+        void onSearchBundelChange(Bundle bundle);
     }
 }

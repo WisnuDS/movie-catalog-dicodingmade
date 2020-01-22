@@ -17,4 +17,8 @@
     <string name="zoom_image">Perbesar Foto</string>
     <string name="add"> telah ditambahkan ke Favorit</string>
     <string name="delete"> telah dihapus dari Favorit</string>
+    <string name="search">Pencarian</string>
+    <string name="appwidget_text">FILM FAVORIT</string>
+    <string name="add_widget">Tambah widget</string>
+    <string name="empty">Kosong</string>
 </resources>

@@ -18,11 +18,14 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.submition4.MainActivity;
 import com.example.submition4.R;
 import com.example.submition4.activity.DetailActivity;
 import com.example.submition4.adapter.ContentAdapter;
 
 import java.util.Objects;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class MovieFragment extends Fragment {
 
@@ -53,6 +56,15 @@ public class MovieFragment extends Fragment {
             }
         };
         Objects.requireNonNull(getActivity()).registerReceiver(broadcastReceiver, intentFilter);
+        ((MainActivity)getActivity()).setOnSearchBundleChange(new MainActivity.SearchBundel() {
+            @Override
+            public void onSearchBundelChange(Bundle bundle) {
+                Log.d("ASUS", "onSearchBundelChange: "+bundle.getString("EXTRA"));
+                movieViewModel.search(bundle.getString("EXTRA"));
+                progressBar.setVisibility(View.VISIBLE);
+                movieViewModel.getData().observe(Objects.requireNonNull(getActivity()), adapter::setListContent);
+            }
+        });
         return root;
     }
 

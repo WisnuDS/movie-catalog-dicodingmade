@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.submition4.MainActivity;
 import com.example.submition4.R;
 import com.example.submition4.activity.DetailActivity;
 import com.example.submition4.adapter.ContentAdapter;
@@ -51,6 +53,16 @@ public class TvShowFragment extends Fragment {
             }
         };
         Objects.requireNonNull(getActivity()).registerReceiver(broadcastReceiver, intentFilter);
+        Objects.requireNonNull(getActivity()).registerReceiver(broadcastReceiver, intentFilter);
+        ((MainActivity)getActivity()).setOnSearchBundleChange(new MainActivity.SearchBundel() {
+            @Override
+            public void onSearchBundelChange(Bundle bundle) {
+                Log.d("ASUSS", "onSearchBundelChange: "+bundle.getString("EXTRA"));
+                tvShowViewModel.search(bundle.getString("EXTRA"));
+                progressBar.setVisibility(View.VISIBLE);
+                tvShowViewModel.getData().observe(Objects.requireNonNull(getActivity()), adapter::setListContent);
+            }
+        });
         return root;
     }
 

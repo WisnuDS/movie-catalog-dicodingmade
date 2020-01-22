@@ -21,6 +21,15 @@ public class TvShowViewModel extends AndroidViewModel {
         refresh();
     }
 
+    void search(String search){
+        if (search.isEmpty()){
+            refresh();
+        }else {
+            ContentRepository repository = new ContentRepository(getApplication());
+            listContent = repository.setListTvShow(search);
+        }
+    }
+
     void refresh(){
         ContentRepository repository = new ContentRepository(getApplication());
         listContent = new MutableLiveData<>();
