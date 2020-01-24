@@ -25,4 +25,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/header_alarm">
+
+        <SwitchPreference
+            app:key="@string/daily_notification"
+            app:title="@string/daily_notification"/>
+        <SwitchPreference
+            app:key="@string/daily_release"
+            app:title="@string/daily_release"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

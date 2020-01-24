@@ -1,20 +1,27 @@
 package com.example.submition4.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreference;
 
+import com.example.submition4.AlarmReceiver;
 import com.example.submition4.R;
 
-public class SettingsActivity extends AppCompatActivity {
+import java.util.Objects;
 
+public class SettingsActivity extends AppCompatActivity {
+    private static final String TAG = "ASSUU";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +44,32 @@ public class SettingsActivity extends AppCompatActivity {
             Intent intent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
             if (preference != null) {
                 preference.setIntent(intent);
+            }
+            SwitchPreference release = getPreferenceManager().findPreference(getString(R.string.daily_release));
+            if (release != null) {
+                release.setOnPreferenceChangeListener((preference1, newValue) -> {
+                    Log.d(TAG, "onCreatePreferences: release "+newValue);
+                    AlarmReceiver alarmReceiver = new AlarmReceiver();
+                    if (newValue.equals(true)){
+                        alarmReceiver.setReleaseAlarm(Objects.requireNonNull(getActivity()));
+                    }else {
+                        alarmReceiver.cancelAlarm(Objects.requireNonNull(getActivity()),AlarmReceiver.RELEASE_ALARM);
+                    }
+                    return true;
+                });
+            }
+            SwitchPreference daily = getPreferenceManager().findPreference(getString(R.string.daily_notification));
+            if (daily != null) {
+                daily.setOnPreferenceChangeListener((preference1, newValue) -> {
+                    Log.d(TAG, "onCreatePreferences: daily "+newValue);
+                    AlarmReceiver alarmReceiver = new AlarmReceiver();
+                    if (newValue.equals(true)){
+                        alarmReceiver.setDailyAlarm(Objects.requireNonNull(getActivity()));
+                    }else {
+                        alarmReceiver.cancelAlarm(Objects.requireNonNull(getActivity()),AlarmReceiver.DAILY_ALARM);
+                    }
+                    return true;
+                });
             }
         }
     }

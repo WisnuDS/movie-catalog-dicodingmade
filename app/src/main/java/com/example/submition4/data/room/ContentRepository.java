@@ -2,7 +2,6 @@ package com.example.submition4.data.room;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
@@ -17,13 +16,18 @@ import com.example.submition4.data.room.database.Database;
 import com.example.submition4.model.ContentModel;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.SyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -283,5 +287,35 @@ public class ContentRepository {
             }
         });
         return listContent;
+    }
+
+    public ArrayList<String>getMovieReleaseToday() {
+        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        SyncHttpClient client = new SyncHttpClient();
+        String url = "https://api.themoviedb.org/3/discover/movie?api_key="+API_KEY+"&primary_release_date.gte="+date+"&primary_release_date.lte="+date;
+        ArrayList<String> contentModels = new ArrayList<>();
+        client.get(url, new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d(TAG, "onFailure: Failed... hoho");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.d(TAG, "onSuccess: success load data");
+                Log.d(TAG, "onSuccess: "+ responseString);
+                try {
+                    JSONObject jsonResponses = new JSONObject(responseString);
+                    JSONArray contents = jsonResponses.getJSONArray("results");
+                    for (int i = 0; i < contents.length(); i++) {
+                        JSONObject object = contents.getJSONObject(i);
+                        contentModels.add(object.getString("title"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return contentModels;
     }
 }
