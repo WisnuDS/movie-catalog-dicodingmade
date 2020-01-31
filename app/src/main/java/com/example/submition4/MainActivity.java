@@ -5,11 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.submition4.activity.SettingsActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.navigation.NavController;
@@ -17,22 +13,26 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import static com.example.submition4.R.*;
+import com.example.submition4.activity.SettingsActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import static com.example.submition4.R.id;
+import static com.example.submition4.R.layout;
 import static com.example.submition4.R.menu.menu_item;
+import static com.example.submition4.R.string;
 
 public class MainActivity extends AppCompatActivity {
 
     NavController navController;
 
-    SearchBundel searchBundel;
+    SearchBundle searchBundle;
 
     SearchView searchView;
 
-    public void setOnSearchBundleChange(SearchBundel searchBundel){
-        this.searchBundel = searchBundel;
+    public void setOnSearchBundleChange(SearchBundle searchBundle){
+        this.searchBundle = searchBundle;
     }
 
-    private static final String TAG = "ASSU";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(menu_item,menu);
         MenuItem item = menu.findItem(id.search_view);
-        ActionBar actionBar = getSupportActionBar();
         searchView = (SearchView) item.getActionView();
         searchView.setFocusable(false);
         searchView.setQueryHint(getResources().getString(string.search));
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 Bundle bundle = new Bundle();
                 bundle.putString("EXTRA",query);
-                searchBundel.onSearchBundelChange(bundle);
+                searchBundle.onSearchBundleChange(bundle);
                 return false;
             }
 
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 Bundle bundle = new Bundle();
                 bundle.putString("EXTRA",newText);
-                searchBundel.onSearchBundelChange(bundle);
+                searchBundle.onSearchBundleChange(bundle);
                 return false;
             }
         });
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public interface SearchBundel{
-        void onSearchBundelChange(Bundle bundle);
+    public interface SearchBundle {
+        void onSearchBundleChange(Bundle bundle);
     }
 }

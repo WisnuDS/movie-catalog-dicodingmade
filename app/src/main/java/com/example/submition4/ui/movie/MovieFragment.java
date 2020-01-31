@@ -25,8 +25,6 @@ import com.example.submition4.adapter.ContentAdapter;
 
 import java.util.Objects;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
-
 public class MovieFragment extends Fragment {
 
     private ProgressBar progressBar;
@@ -56,10 +54,10 @@ public class MovieFragment extends Fragment {
             }
         };
         Objects.requireNonNull(getActivity()).registerReceiver(broadcastReceiver, intentFilter);
-        ((MainActivity)getActivity()).setOnSearchBundleChange(new MainActivity.SearchBundel() {
+        ((MainActivity)getActivity()).setOnSearchBundleChange(new MainActivity.SearchBundle() {
             @Override
-            public void onSearchBundelChange(Bundle bundle) {
-                Log.d("ASUS", "onSearchBundelChange: "+bundle.getString("EXTRA"));
+            public void onSearchBundleChange(Bundle bundle) {
+                Log.d("ASUS", "onSearchBundleChange: "+bundle.getString("EXTRA"));
                 movieViewModel.search(bundle.getString("EXTRA"));
                 progressBar.setVisibility(View.VISIBLE);
                 movieViewModel.getData().observe(Objects.requireNonNull(getActivity()), adapter::setListContent);

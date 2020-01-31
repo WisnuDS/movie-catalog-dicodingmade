@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.example.submition4.R;
 import com.example.submition4.data.room.ContentRepository;
-import com.example.submition4.widget.FavoriteMovieWidget;
 
 import java.util.ArrayList;
 import java.util.List;

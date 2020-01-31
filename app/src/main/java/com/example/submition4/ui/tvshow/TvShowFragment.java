@@ -54,10 +54,10 @@ public class TvShowFragment extends Fragment {
         };
         Objects.requireNonNull(getActivity()).registerReceiver(broadcastReceiver, intentFilter);
         Objects.requireNonNull(getActivity()).registerReceiver(broadcastReceiver, intentFilter);
-        ((MainActivity)getActivity()).setOnSearchBundleChange(new MainActivity.SearchBundel() {
+        ((MainActivity)getActivity()).setOnSearchBundleChange(new MainActivity.SearchBundle() {
             @Override
-            public void onSearchBundelChange(Bundle bundle) {
-                Log.d("ASUSS", "onSearchBundelChange: "+bundle.getString("EXTRA"));
+            public void onSearchBundleChange(Bundle bundle) {
+                Log.d("ASUSS", "onSearchBundleChange: "+bundle.getString("EXTRA"));
                 tvShowViewModel.search(bundle.getString("EXTRA"));
                 progressBar.setVisibility(View.VISIBLE);
                 tvShowViewModel.getData().observe(Objects.requireNonNull(getActivity()), adapter::setListContent);

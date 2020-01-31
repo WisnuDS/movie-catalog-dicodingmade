@@ -24,6 +24,9 @@ public interface DaoAccess {
     @Query("SELECT*FROM favorite_table WHERE type=2")
     LiveData<List<ContentModel>> getFavoriteTvShow();
 
+    @Query("SELECT*FROM favorite_table WHERE type=1")
+    Cursor getFavoriteMovieProvider();
+
     @Query("SELECT*FROM favorite_table WHERE title LIKE :title")
     List<ContentModel> getDataByName(String title);
 

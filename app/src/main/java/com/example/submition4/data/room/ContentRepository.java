@@ -2,6 +2,7 @@ package com.example.submition4.data.room;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
@@ -34,12 +35,18 @@ import cz.msebera.android.httpclient.Header;
 public class ContentRepository {
     private static final String TAG = "MovieViewModel";
     private static final String API_KEY = new String(Base64.decode(BuildConfig.API_KEY,1));
+    public static final String AUTHORITY  = "com.exemple.submition4";
+    private static final String DB_NAME = "db_favorite";
+    public static final String TABLE_NAME = "favorite_table";
 
     private Database database;
 
     public ContentRepository(Context context){
-        String DB_NAME = "db_favorite";
-        database = Room.databaseBuilder(context,Database.class, DB_NAME).build();
+        database = Room.databaseBuilder(context,Database.class, DB_NAME).allowMainThreadQueries().build();
+    }
+
+    public Cursor getFavoriteMovieProvider(){
+        return database.daoAccess().getFavoriteMovieProvider();
     }
 
     public ArrayList<String> getFavoriteWidget(){

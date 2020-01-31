@@ -1,8 +1,8 @@
-package com.example.submition4;
+package com.example.submition4.alarm;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -11,12 +11,14 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.submition4.R;
 import com.example.submition4.data.room.ContentRepository;
 
 import java.util.ArrayList;
@@ -47,10 +49,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             protected Void doInBackground(Void... voids) {
                 Log.d(TAG, "onReceive: ");
                 if (idNotification==RELEASE_CODE){
-                    Log.d(TAG, "onReceive: yok masok");
                     ContentRepository repository = new ContentRepository(context);
                     releases.addAll(repository.getMovieReleaseToday());
-                    Log.d(TAG, "onReceive: "+releases.size());
                 }
                 return null;
             }
@@ -65,16 +65,23 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void showNotificationAlarm(Context context, String message, String title, int notificationCode){
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Log.d("AAAA", "showNotificationAlarm: "+message);
-        Log.d("AAAA", "showNotificationAlarm: "+releases.size());
         if (notificationCode==DAILY_CODE){
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"chanel_01")
                     .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                     .setContentTitle(title)
                     .setContentText(message)
                     .setColor(ContextCompat.getColor(context,android.R.color.transparent))
                     .setVibrate(new long[]{1000,1000,1000,1000,1000})
                     .setSound(alarmSound);
+            if(Build.VERSION.SDK_INT  >= Build.VERSION_CODES.O){
+                NotificationChannel channel = new NotificationChannel("chanel_id"
+                        ,"Daily Notification"
+                        ,NotificationManager.IMPORTANCE_HIGH);
+                builder.setChannelId("chanel_id");
+                if (notificationManager != null) {
+                    notificationManager.createNotificationChannel(channel);
+                }
+            }
             if (notificationManager != null) {
                 notificationManager.notify(notificationCode,builder.build());
             }
@@ -87,15 +94,25 @@ public class AlarmReceiver extends BroadcastReceiver {
                     releases) {
                 inboxStyle.addLine(String.format("%s%s", release, context.getString(R.string.release_today)));
             }
-            Notification notification = new NotificationCompat.Builder(context)
+
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(context,"chanel_01")
                     .setContentTitle(releases.size()+context.getString(R.string.release_movie_today))
                     .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                     .setContentText(context.getString(R.string.new_movie))
                     .setGroup("group_key")
                     .setGroupSummary(true)
-                    .setStyle(inboxStyle).build();
+                    .setStyle(inboxStyle);
+            if(Build.VERSION.SDK_INT  >= Build.VERSION_CODES.O){
+                NotificationChannel channel = new NotificationChannel("chanel_id"
+                        ,"Daily Notification"
+                        ,NotificationManager.IMPORTANCE_HIGH);
+                notification.setChannelId("chanel_id");
+                if (notificationManager != null) {
+                    notificationManager.createNotificationChannel(channel);
+                }
+            }
             if (notificationManager != null) {
-                notificationManager.notify(notificationCode,notification);
+                notificationManager.notify(notificationCode,notification.build());
             }
         }
 
@@ -107,8 +124,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         intent.putExtra(EXTRA_TYPE,DAILY_ALARM);
         intent.putExtra(EXTRA_MESSAGE, context.getString(R.string.see_more_movie));
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,9);
-        calendar.set(Calendar.MINUTE,57);
+        calendar.set(Calendar.HOUR_OF_DAY,7);
+        calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,0);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, DAILY_CODE,intent,0);
         if (alarmManager != null) {
